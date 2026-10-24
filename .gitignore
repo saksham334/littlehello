@@ -1,0 +1,17 @@
+# Dependencies — reinstalled anytime with `npm install`, never committed
+node_modules/
+
+# Secrets — NEVER commit real environment files
+.env
+.env.*
+!.env.example
+
+# Build output and test coverage
+dist/
+coverage/
+
+# Logs and OS junk
+*.log
+npm-debug.log*
+Thumbs.db
+.DS_Store
