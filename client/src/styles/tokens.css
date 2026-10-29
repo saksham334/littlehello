@@ -1,0 +1,27 @@
+/* token.cc -  the LittleHello design tokens.
+   Every color, font and radius is defined ONCE here, then reused everywhere. 
+   Change a token and whole site updates. Milestone 3 expands this file. */
+
+:root {
+  /* Brand palette */
+  --lh-cream: #FFF9F2;   /* main background */
+  --lh-peach: #FFD6C2;   /* decoration */
+  --lh-blush: #FFB7C5;   /* decoration */
+  --lh-lilac: #F5C6E8;   /* secondary highlights */
+  --lh-berry: #A85D79;   /* buttons, accents, large text */
+
+  /* Accessible companions (for small text on cream) */
+  --lh-berry-ink: #8E4562; /* small berry text, button hover */
+  --lh-text: #4A3540;      /* body text: soft plum-brown, not harsh black */
+  --lh-text-soft: #6E5864; /* secondary text */
+
+  /* Fonts — each has fallbacks in case Google Fonts doesn't load */
+  --lh-font-hand: 'Caveat', 'Segoe Print', cursive;
+  --lh-font-body: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --lh-font-ui: 'Quicksand', var(--lh-font-body);
+
+  /* Shape and depth */
+  --lh-radius: 1.25rem;
+  --lh-radius-pill: 999px;
+  --lh-shadow-soft: 0 8px 24px rgba(168, 93, 121, 0.12);
+}

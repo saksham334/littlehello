@@ -1,0 +1,63 @@
+/* base.css - g;oba; styles and Bootstrap overrides. 
+   It's import AFTER Bootstrap, so when both set the same thing, ours wins. */
+
+/* Bootstrap 5.3 reads these CSS variables, so overriding them re-themes every Bootstrap component st once. */
+
+:root {
+  --bs-body-bg: var(--lh-cream);
+  --bs-body-color: var(--lh-text);
+  --bs-body-font-family: var(--lh-font-body);
+  --bs-link-color-rgb: 142, 69, 98;        /* = berry ink */
+  --bs-link-hover-color-rgb: 168, 93, 121; /* = berry */
+  --bs-border-radius: 1rem;
+}
+
+/* Handwritten text: use selectively, never for small or long text */
+.font-hand {
+  font-family: var(--lh-font-hand);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.font-ui {
+  font-family: var(--lh-font-ui);
+  font-weight: 600;
+}
+
+/* Fluid size: never smaller than 3rem, never larger than 5.5rem,
+   and scales with screen width (8vw) in between. */
+.hero-title {
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  color: var(--lh-berry);
+}
+
+.text-soft {
+  color: var(--lh-text-soft);
+}
+
+/* A soft white card that floats on the cream background */
+.lh-card {
+  background: #fff;
+  border: 1px solid rgba(168, 93, 121, 0.15);
+  border-radius: var(--lh-radius);
+  box-shadow: var(--lh-shadow-soft);
+}
+
+/* Our main button. Bootstrap buttons are built from --bs-btn-* variables,
+   so we set those instead of fighting Bootstrap's own rules. */
+.btn-berry {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--lh-berry);
+  --bs-btn-border-color: var(--lh-berry);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--lh-berry-ink);
+  --bs-btn-hover-border-color: var(--lh-berry-ink);
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--lh-berry-ink);
+  --bs-btn-active-border-color: var(--lh-berry-ink);
+  --bs-btn-focus-shadow-rgb: 168, 93, 121;
+  font-family: var(--lh-font-ui);
+  font-weight: 600;
+  border-radius: var(--lh-radius-pill);
+  padding: 0.6rem 1.4rem;
+}
