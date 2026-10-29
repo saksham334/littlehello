@@ -1,0 +1,441 @@
+/* components.css — styles for reusable LittleHello pieces.
+   Naming: every class starts with "lh-" so it never clashes with Bootstrap.
+   Pattern:  .lh-block  /  .lh-block__part  /  .lh-block--variant  */
+
+/* ============================================================
+   LOGO
+   ============================================================ */
+.lh-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--lh-font-hand);
+  font-weight: 700;
+  font-size: 2.1rem;
+  line-height: 1;
+  color: var(--lh-text);
+  text-decoration: none;
+}
+.lh-logo--sm { font-size: 1.6rem; }
+.lh-logo--lg { font-size: clamp(3rem, 2rem + 4vw, 4.5rem); }
+
+.lh-logo__mark {
+  width: 1.05em;
+  height: 1.05em;
+  flex-shrink: 0;
+  transition: transform var(--lh-medium) var(--lh-ease);
+}
+/* The little flower does a gentle half-turn when you hover the logo */
+a.lh-logo:hover .lh-logo__mark { transform: rotate(36deg); }
+
+.lh-logo__word { position: relative; padding-bottom: 0.12em; }
+.lh-logo__hello { color: var(--lh-berry); }
+.lh-logo__swoosh {
+  position: absolute;
+  right: -0.05em;
+  bottom: -0.12em;
+  width: 58%;
+  height: 0.32em;
+  overflow: visible;
+}
+
+/* ============================================================
+   BUTTONS — Bootstrap buttons are built from --bs-btn-* variables,
+   so variants just set those variables.
+   ============================================================ */
+.btn {
+  font-family: var(--lh-font-ui);
+  font-weight: 600;
+  border-radius: var(--lh-radius-pill);
+  --bs-btn-padding-x: 1.4rem;
+  --bs-btn-padding-y: 0.6rem;
+  --bs-btn-border-width: 1.5px;
+  min-height: 2.75rem; /* 44px: comfy touch target */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  transition:
+    transform var(--lh-fast) var(--lh-ease),
+    box-shadow var(--lh-fast) var(--lh-ease),
+    background-color var(--lh-fast) var(--lh-ease),
+    color var(--lh-fast) var(--lh-ease);
+}
+.btn-lg { --bs-btn-padding-x: 1.8rem; --bs-btn-padding-y: 0.75rem; min-height: 3.25rem; }
+.btn-sm { --bs-btn-padding-x: 1rem; --bs-btn-padding-y: 0.35rem; min-height: 2.25rem; }
+
+/* Only lift on devices that truly hover (not on phones, where hover "sticks") */
+@media (hover: hover) {
+  .btn:not(:disabled):hover { transform: translateY(-1px); }
+}
+.btn:not(:disabled):active { transform: translateY(0); }
+
+/* Primary: solid berry */
+.btn-berry {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--lh-berry);
+  --bs-btn-border-color: var(--lh-berry);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--lh-berry-ink);
+  --bs-btn-hover-border-color: var(--lh-berry-ink);
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--lh-plum);
+  --bs-btn-active-border-color: var(--lh-plum);
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: var(--lh-berry);
+  --bs-btn-disabled-border-color: var(--lh-berry);
+  --bs-btn-focus-shadow-rgb: 168, 93, 121;
+  box-shadow: 0 6px 16px rgba(168, 93, 121, 0.25);
+}
+
+/* Secondary: soft blush pill */
+.btn-soft {
+  --bs-btn-color: var(--lh-plum);
+  --bs-btn-bg: var(--lh-blush-soft);
+  --bs-btn-border-color: transparent;
+  --bs-btn-hover-color: var(--lh-plum);
+  --bs-btn-hover-bg: #FFD3DD;
+  --bs-btn-hover-border-color: transparent;
+  --bs-btn-active-color: var(--lh-plum);
+  --bs-btn-active-bg: var(--lh-blush);
+  --bs-btn-active-border-color: transparent;
+  --bs-btn-disabled-color: var(--lh-plum);
+  --bs-btn-disabled-bg: var(--lh-blush-soft);
+  --bs-btn-focus-shadow-rgb: 168, 93, 121;
+}
+
+/* Outline: for "Edit profile"-style actions */
+.btn-outline-berry {
+  --bs-btn-color: var(--lh-berry-ink);
+  --bs-btn-bg: rgba(255, 255, 255, 0.7);
+  --bs-btn-border-color: var(--lh-berry-ink);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--lh-berry-ink);
+  --bs-btn-hover-border-color: var(--lh-berry-ink);
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--lh-plum);
+  --bs-btn-active-border-color: var(--lh-plum);
+  --bs-btn-disabled-color: var(--lh-berry-ink);
+  --bs-btn-disabled-border-color: var(--lh-berry-ink);
+  --bs-btn-focus-shadow-rgb: 168, 93, 121;
+}
+
+/* Ghost: quiet text button ("Skip for now", "Cancel") */
+.btn-ghost {
+  --bs-btn-color: var(--lh-berry-ink);
+  --bs-btn-bg: transparent;
+  --bs-btn-border-color: transparent;
+  --bs-btn-hover-color: var(--lh-plum);
+  --bs-btn-hover-bg: var(--lh-lilac-soft);
+  --bs-btn-hover-border-color: transparent;
+  --bs-btn-active-color: var(--lh-plum);
+  --bs-btn-active-bg: var(--lh-lilac-soft);
+  --bs-btn-active-border-color: transparent;
+  --bs-btn-focus-shadow-rgb: 168, 93, 121;
+}
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+.lh-card {
+  background: var(--lh-surface);
+  border: 1px solid var(--lh-border);
+  border-radius: var(--lh-radius-lg);
+  box-shadow: var(--lh-shadow-soft);
+  backdrop-filter: blur(6px); /* lets the dreamy background softly show through */
+}
+
+.lh-card--interactive {
+  transition:
+    transform var(--lh-medium) var(--lh-ease),
+    box-shadow var(--lh-medium) var(--lh-ease);
+}
+@media (hover: hover) {
+  .lh-card--interactive:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--lh-shadow-lift);
+  }
+}
+
+/* ============================================================
+   SECTION TITLES — Caveat with a hand-drawn underline
+   ============================================================ */
+.lh-section-title {
+  font-family: var(--lh-font-hand);
+  font-weight: 700;
+  font-size: var(--lh-size-section);
+  color: var(--lh-text);
+  line-height: 1.05;
+  display: inline-block;
+  position: relative;
+  padding-bottom: 0.2em;
+}
+.lh-section-title::after {
+  content: '';
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  bottom: 0;
+  height: 0.28em;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 14' preserveAspectRatio='none'%3E%3Cpath d='M3 9 C 40 3, 90 3, 120 7 S 175 11, 197 5' fill='none' stroke='%23FFB7C5' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
+}
+
+/* Small uppercase label above a section title */
+.lh-eyebrow {
+  font-family: var(--lh-font-ui);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--lh-berry-ink);
+}
+
+/* ============================================================
+   CHIPS — interests, tags
+   ============================================================ */
+.lh-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.85rem;
+  border-radius: var(--lh-radius-pill);
+  border: 1.5px solid var(--lh-border-strong);
+  background: var(--lh-white);
+  color: var(--lh-text);
+  font-family: var(--lh-font-ui);
+  font-weight: 600;
+  font-size: 0.9rem;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+/* An interest you share with the viewer: tinted + a tiny heart icon
+   (icon + hidden text means it's not communicated by color alone) */
+.lh-chip--shared {
+  background: var(--lh-lilac-soft);
+  border-color: transparent;
+  color: var(--lh-plum);
+}
+
+/* Selectable chip used in onboarding and filters */
+.lh-chip--toggle {
+  min-height: 2.75rem;
+  padding-inline: 1rem;
+  cursor: pointer;
+  transition:
+    background-color var(--lh-fast) var(--lh-ease),
+    border-color var(--lh-fast) var(--lh-ease),
+    color var(--lh-fast) var(--lh-ease),
+    transform var(--lh-fast) var(--lh-ease);
+}
+@media (hover: hover) {
+  .lh-chip--toggle:hover {
+    border-color: var(--lh-berry);
+    background: var(--lh-blush-soft);
+  }
+}
+.lh-chip--toggle:active { transform: scale(0.97); }
+.lh-chip--toggle.is-selected {
+  background: var(--lh-berry);
+  border-color: var(--lh-berry);
+  color: #fff;
+}
+.lh-chip--toggle .bi { font-size: 0.85em; }
+
+/* ============================================================
+   AVATAR — doodle avatars instead of photos (less pressure, more privacy)
+   ============================================================ */
+.lh-avatar {
+  --size: 3.5rem;
+  width: var(--size);
+  height: var(--size);
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--from), var(--to));
+  box-shadow: 0 0 0 4px var(--lh-white), var(--lh-shadow-soft);
+}
+.lh-avatar > svg {
+  width: 62%;
+  height: 62%;
+}
+
+/* ============================================================
+   DOODLES — decorative, scattered, gently floating
+   ============================================================ */
+.lh-scatter {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.lh-scatter > * { position: absolute; }
+
+.lh-float {
+  animation: lh-float 7s var(--lh-ease) infinite;
+}
+@keyframes lh-float {
+  0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+  50%      { transform: translateY(-8px) rotate(calc(var(--rot, 0deg) + 4deg)); }
+}
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+.lh-empty {
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  max-width: 26rem;
+  margin-inline: auto;
+}
+.lh-empty__art {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 0.75rem;
+}
+.lh-empty__sparkle {
+  position: absolute;
+  top: -0.4rem;
+  right: -0.9rem;
+}
+.lh-empty__title {
+  font-family: var(--lh-font-hand);
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: var(--lh-berry);
+  margin-bottom: 0.4rem;
+}
+
+/* ============================================================
+   PROFILE CARD
+   ============================================================ */
+.lh-profile-card {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.lh-profile-card__banner {
+  position: relative;
+  height: 5.5rem;
+  background: var(--lh-grad-dreamy);
+}
+.lh-profile-card__banner-doodle {
+  position: absolute;
+  right: 1rem;
+  bottom: 0.6rem;
+  opacity: 0.9;
+}
+.lh-profile-card__demo {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  padding: 0.15rem 0.6rem;
+  border-radius: var(--lh-radius-pill);
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--lh-plum);
+  font-family: var(--lh-font-ui);
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+.lh-profile-card__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 0 1.25rem 1.25rem;
+}
+.lh-profile-card__avatar { margin-top: -2rem; }
+.lh-profile-card__name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin: 0;
+}
+.lh-profile-card__pronouns {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--lh-text-soft);
+  margin-left: 0.4rem;
+}
+.lh-profile-card__meta {
+  font-size: 0.9rem;
+  color: var(--lh-text-soft);
+  margin: 0.1rem 0 0;
+}
+.lh-profile-card__intro { margin: 0; }
+.lh-profile-card__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.lh-profile-card__action { margin-top: auto; }
+
+/* "Why you might click" — the transparent recommendation explanation */
+.lh-why {
+  background: var(--lh-lilac-soft);
+  border-radius: var(--lh-radius);
+  padding: 0.75rem 1rem;
+  color: var(--lh-plum);
+  font-size: 0.92rem;
+}
+.lh-why__title {
+  font-family: var(--lh-font-hand);
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 0.35rem;
+}
+.lh-why ul { margin: 0; padding-left: 1.1rem; }
+
+/* ============================================================
+   FORMS
+   ============================================================ */
+:root {
+  --bs-form-invalid-color: var(--lh-error);
+  --bs-form-invalid-border-color: var(--lh-error);
+  --bs-form-valid-color: var(--lh-success);
+  --bs-form-valid-border-color: var(--lh-success);
+}
+.form-label {
+  font-family: var(--lh-font-ui);
+  font-weight: 600;
+  color: var(--lh-text);
+}
+.form-control,
+.form-select {
+  border-radius: var(--lh-radius-sm);
+  border: 1.5px solid var(--lh-border-strong);
+  padding: 0.65rem 0.95rem;
+  background-color: var(--lh-white);
+  color: var(--lh-text);
+}
+.form-control::placeholder { color: #9A8791; }
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  border-color: var(--lh-berry);
+  box-shadow: 0 0 0 0.25rem rgba(168, 93, 121, 0.2);
+}
+.form-check-input:checked {
+  background-color: var(--lh-berry);
+  border-color: var(--lh-berry);
+}
+.form-text { color: var(--lh-text-soft); }
+
+/* Friendly inline alerts */
+.lh-alert {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 0.8rem 1rem;
+  border-radius: var(--lh-radius);
+  font-size: 0.95rem;
+}
+.lh-alert--error { background: var(--lh-error-bg); color: var(--lh-error); }
+.lh-alert--success { background: var(--lh-success-bg); color: var(--lh-success); }
+.lh-alert .bi { margin-top: 0.1rem; }

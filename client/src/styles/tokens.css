@@ -1,27 +1,64 @@
-/* token.cc -  the LittleHello design tokens.
-   Every color, font and radius is defined ONCE here, then reused everywhere. 
-   Change a token and whole site updates. Milestone 3 expands this file. */
+/* tokens.css — the LittleHello design tokens.
+   Every color, font, radius, shadow and timing is defined ONCE here.
+   Components only ever use these variables, so the whole look can be tuned from this file. */
 
 :root {
-  /* Brand palette */
+  /* ---- Brand palette (the five core colors) ---------------------------- */
   --lh-cream: #FFF9F2;   /* main background */
-  --lh-peach: #FFD6C2;   /* decoration */
-  --lh-blush: #FFB7C5;   /* decoration */
+  --lh-peach: #FFD6C2;   /* decoration, warm gradients */
+  --lh-blush: #FFB7C5;   /* decoration, hearts, highlights */
   --lh-lilac: #F5C6E8;   /* secondary highlights */
-  --lh-berry: #A85D79;   /* buttons, accents, large text */
+  --lh-berry: #A85D79;   /* buttons, accents, LARGE text only on cream */
 
-  /* Accessible companions (for small text on cream) */
-  --lh-berry-ink: #8E4562; /* small berry text, button hover */
-  --lh-text: #4A3540;      /* body text: soft plum-brown, not harsh black */
-  --lh-text-soft: #6E5864; /* secondary text */
+  /* ---- Supporting tints (lighter versions for backgrounds) ------------- */
+  --lh-blush-soft: #FFE4EA;
+  --lh-lilac-soft: #FCE6F3;
+  --lh-peach-soft: #FFEDE3;
+  --lh-white: #FFFFFF;
 
-  /* Fonts — each has fallbacks in case Google Fonts doesn't load */
-  --lh-font-hand: 'Caveat', 'Segoe Print', cursive;
-  --lh-font-body: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* ---- Accessible text colors (contrast checked on cream) -------------- */
+  --lh-text: #4A3540;       /* body text: 10.7:1 on cream */
+  --lh-text-soft: #6E5864;  /* secondary text: 6.2:1 on cream */
+  --lh-berry-ink: #8E4562;  /* small berry text + button hover: 6.3:1 */
+  --lh-plum: #7A3150;       /* text on lilac/blush tints: 7.4:1 */
+
+  /* ---- Feedback colors (never color alone: always with icon + words) --- */
+  --lh-success: #2E7A57;    /* 5.0:1 on cream */
+  --lh-success-bg: #E6F4EC;
+  --lh-error: #B3364C;      /* 5.7:1 on cream */
+  --lh-error-bg: #FDE8EB;
+
+  /* ---- Lines and surfaces ------------------------------------------------ */
+  --lh-border: rgba(168, 93, 121, 0.16);
+  --lh-border-strong: rgba(168, 93, 121, 0.35);
+  --lh-surface: rgba(255, 255, 255, 0.86); /* slightly see-through white cards */
+
+  /* ---- Gradients (use sparingly) ---------------------------------------- */
+  --lh-grad-dreamy: linear-gradient(135deg, var(--lh-peach) 0%, var(--lh-blush) 50%, var(--lh-lilac) 100%);
+  --lh-grad-sunrise: linear-gradient(135deg, var(--lh-peach-soft) 0%, var(--lh-blush-soft) 55%, var(--lh-lilac-soft) 100%);
+
+  /* ---- Fonts -------------------------------------------------------------- */
+  --lh-font-hand: 'Caveat', 'Segoe Print', 'Bradley Hand', cursive;
+  --lh-font-body: 'Nunito', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --lh-font-ui: 'Quicksand', var(--lh-font-body);
 
-  /* Shape and depth */
+  /* ---- Fluid type scale: clamp(min, preferred, max) ---------------------- */
+  --lh-size-hero: clamp(3.25rem, 2rem + 6vw, 6rem);
+  --lh-size-section: clamp(2.25rem, 1.6rem + 2.6vw, 3.5rem);
+  --lh-size-note: clamp(1.5rem, 1.25rem + 1vw, 2rem);
+
+  /* ---- Shape -------------------------------------------------------------- */
+  --lh-radius-sm: 0.75rem;
   --lh-radius: 1.25rem;
+  --lh-radius-lg: 1.75rem;
   --lh-radius-pill: 999px;
-  --lh-shadow-soft: 0 8px 24px rgba(168, 93, 121, 0.12);
+
+  /* ---- Shadows: tinted berry, never grey/black --------------------------- */
+  --lh-shadow-soft: 0 6px 20px rgba(168, 93, 121, 0.10);
+  --lh-shadow-lift: 0 14px 34px rgba(168, 93, 121, 0.18);
+
+  /* ---- Motion -------------------------------------------------------------- */
+  --lh-ease: cubic-bezier(0.25, 0.8, 0.35, 1);
+  --lh-fast: 160ms;
+  --lh-medium: 260ms;
 }
