@@ -13,7 +13,7 @@ import ProfileCard from '../components/profile/ProfileCard.jsx';
 import { AVATARS } from '../utils/avatars.js';
 import { DEMO_PROFILES, DEMO_MY_INTERESTS } from '../utils/demoData.js';
 import '../styles/styleguide.css';
-
+import ApiStatus from '../components/common/ApiStatus.jsx';
 const SWATCHES = [
   { name: 'Cloud Cream', hex: '#FFF9F2', use: 'Main background' },
   { name: 'Peach', hex: '#FFD6C2', use: 'Decoration, warm gradients' },
@@ -65,6 +65,11 @@ export default function StyleGuidePage() {
           <i className="bi bi-arrow-left" aria-hidden="true"></i> Back home
         </Link>
       </header>
+
+      {/* ---- Developer check ---------------------------------------- */}
+      <div className="mb-5">
+        <ApiStatus />
+      </div>
 
       {/* ---- Hero preview -------------------------------------------- */}
       <section className="lh-card position-relative overflow-hidden text-center sg-hero mb-5" aria-labelledby="sg-hero">

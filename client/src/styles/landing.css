@@ -1,0 +1,221 @@
+/* landing.css - styles used only on the landing page sections. */
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.lh-hero {
+  position: relative; /* so DoodleScatter positions inside the hero */
+  overflow: hidden;   /* tilted cards and doodles never cause sideways scrolling */
+  padding-block: clamp(2.5rem, 1.5rem + 5vw, 6rem) clamp(3rem, 2rem + 4vw, 5.5rem);
+}
+
+/* Small pill label above the heading */
+.lh-hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.95rem;
+  border-radius: var(--lh-radius-pill);
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid var(--lh-border);
+  font-family: var(--lh-font-ui);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--lh-plum);
+}
+
+.lh-hero__title {
+  font-family: var(--lh-font-hand);
+  font-weight: 700;
+  font-size: var(--lh-size-hero);
+  line-height: 0.95;
+  color: var(--lh-text);
+  margin: 1.1rem 0 1.25rem;
+}
+
+/* "Real friendships." in berry with a hand-drawn swoosh underneath */
+.lh-hero__highlight {
+  position: relative;
+  display: inline-block;
+  color: var(--lh-berry);
+  padding-bottom: 0.12em;
+}
+.lh-hero__highlight::after {
+  content: '';
+  position: absolute;
+  left: 2%;
+  right: 2%;
+  bottom: -0.06em;
+  height: 0.2em;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 14' preserveAspectRatio='none'%3E%3Cpath d='M3 9 C 40 3, 90 3, 120 7 S 175 11, 197 5' fill='none' stroke='%23FFB7C5' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
+}
+
+.lh-hero__intro {
+  font-size: clamp(1.05rem, 1rem + 0.35vw, 1.22rem);
+  color: var(--lh-text-soft);
+  max-width: 34rem;
+}
+
+/* Buttons: stacked on phones, side by side from 576px */
+.lh-hero__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 1.75rem 0 1.5rem;
+}
+@media (min-width: 576px) {
+  .lh-hero__actions {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+@media (min-width: 992px) {
+  .lh-hero__actions { justify-content: flex-start; }
+}
+
+/* Three small promises with icons */
+.lh-hero__promises {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 1.25rem;
+  font-size: 0.95rem;
+  color: var(--lh-text-soft);
+}
+.lh-hero__promises .bi { color: var(--lh-berry-ink); margin-right: 0.3rem; }
+@media (min-width: 992px) {
+  .lh-hero__promises { justify-content: flex-start; }
+}
+
+/* ---- Profile card preview ---- */
+.lh-hero__preview {
+  position: relative;
+  max-width: 23rem;
+  margin: 3rem auto 0;
+}
+@media (min-width: 992px) {
+  .lh-hero__preview {
+    max-width: none;
+    margin: 0;
+    padding-right: 18%; /* leaves room for the back card to peek out */
+  }
+}
+
+.lh-hero__card {
+  position: relative;
+  z-index: 1;
+  transform: rotate(-2deg); /* a slight tilt, like a photo on a pinboard */
+}
+
+/* Second card, peeking out behind the first (laptop only, via d-none d-lg-block) */
+.lh-hero__card--back {
+  position: absolute;
+  z-index: 0;
+  top: 2.5rem;
+  right: 0;
+  width: 78%;
+  transform: rotate(5deg);
+}
+
+/* Little speech bubble showing what a "hello" looks like */
+.lh-hello-note {
+  position: relative;
+  z-index: 2;
+  width: min(17.5rem, 92%);
+  margin: -1.75rem 0 0 auto;
+  padding: 0.85rem 1rem;
+  background: var(--lh-white);
+  border: 1px solid var(--lh-border);
+  border-radius: var(--lh-radius-lg);
+  box-shadow: var(--lh-shadow-lift);
+  transform: rotate(1.5deg);
+}
+/* The bubble's little tail */
+.lh-hello-note::after {
+  content: '';
+  position: absolute;
+  left: 1.5rem;
+  bottom: -0.45rem;
+  width: 0.9rem;
+  height: 0.9rem;
+  background: var(--lh-white);
+  border-right: 1px solid var(--lh-border);
+  border-bottom: 1px solid var(--lh-border);
+  transform: rotate(45deg);
+}
+.lh-hello-note__label {
+  font-family: var(--lh-font-ui);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--lh-berry-ink);
+  margin-bottom: 0.25rem;
+}
+.lh-hello-note__text {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* ============================================================
+   SOFT BAND — a lightly tinted full-width section background
+   ============================================================ */
+.lh-band {
+  background: rgba(255, 255, 255, 0.45);
+  border-block: 1px solid var(--lh-border);
+}
+
+/* ============================================================
+   HOW IT WORKS
+   ============================================================ */
+.lh-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.lh-step {
+  height: 100%;
+  padding: 1.75rem 1.5rem 2rem;
+  text-align: center;
+}
+.lh-step__art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 6rem;
+  height: 6rem;
+  margin: 0 auto 1.1rem;
+  border-radius: 50%;
+  background: var(--lh-grad-sunrise);
+}
+.lh-step__number {
+  position: absolute;
+  top: -0.2rem;
+  right: -0.35rem;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--lh-berry);
+  color: #fff;
+  font-family: var(--lh-font-ui);
+  font-weight: 700;
+  font-size: 0.95rem;
+  box-shadow: 0 0 0 3px var(--lh-white);
+}
+.lh-step__title {
+  font-family: var(--lh-font-hand);
+  font-weight: 700;
+  font-size: 2rem;
+  line-height: 1.1;
+  color: var(--lh-berry);
+  margin-bottom: 0.4rem;
+}
+.lh-step__text {
+  color: var(--lh-text-soft);
+  margin: 0;
+}
