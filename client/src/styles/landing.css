@@ -219,3 +219,202 @@
   color: var(--lh-text-soft);
   margin: 0;
 }
+
+/* ============================================================
+   FEATURES
+   ============================================================ */
+.lh-feature {
+  height: 100%;
+  padding: 1.75rem 1.5rem;
+}
+.lh-feature__art {
+  display: grid;
+  place-items: center;
+  width: 4.25rem;
+  height: 4.25rem;
+  margin-bottom: 1rem;
+  border-radius: 1.4rem 1.1rem 1.5rem 1rem; /* slightly uneven = hand-made blob */
+}
+.lh-feature__title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-bottom: 0.4rem;
+}
+.lh-feature__text {
+  color: var(--lh-text-soft);
+  margin: 0;
+}
+
+/* ============================================================
+   INCLUSION & SAFETY
+   ============================================================ */
+.lh-guidelines {
+  padding: 1.5rem;
+}
+.lh-guidelines__title {
+  font-family: var(--lh-font-hand);
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--lh-berry);
+  line-height: 1;
+  margin-bottom: 0.75rem;
+}
+.lh-guidelines ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.lh-guidelines li {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+}
+.lh-guidelines li + li { margin-top: 0.6rem; }
+.lh-guidelines .bi { color: var(--lh-berry-ink); margin-top: 0.15rem; }
+
+.lh-tool {
+  height: 100%;
+  display: flex;
+  gap: 0.9rem;
+  align-items: flex-start;
+  padding: 1.15rem 1.25rem;
+}
+.lh-tool__icon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: var(--lh-lilac-soft);
+  color: var(--lh-plum);
+  font-size: 1.2rem;
+}
+.lh-tool__title {
+  font-size: 1rem;
+  font-weight: 800;
+  margin-bottom: 0.2rem;
+}
+.lh-tool__text {
+  font-size: 0.95rem;
+  color: var(--lh-text-soft);
+  margin: 0;
+}
+
+/* ============================================================
+   WHAT WE'LL NEVER DO
+   ============================================================ */
+.lh-never {
+  max-width: 54rem;
+  margin-inline: auto;
+  padding: clamp(1.75rem, 1.25rem + 2vw, 2.75rem);
+  border: 2px dashed var(--lh-border-strong); /* a "cut-out promise" feel */
+  background: rgba(255, 255, 255, 0.7);
+}
+.lh-never__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+@media (min-width: 768px) {
+  .lh-never__list {
+    columns: 2;        /* splits the list into two columns automatically */
+    column-gap: 2.5rem;
+  }
+}
+.lh-never__list li {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 0.35rem 0;
+  break-inside: avoid; /* never split one item across the two columns */
+}
+.lh-never__list .bi { color: var(--lh-error); margin-top: 0.15rem; }
+
+/* ============================================================
+   FAQ ACCORDION
+   ============================================================ */
+.lh-faq {
+  max-width: 46rem;
+}
+.lh-faq__item {
+  background: var(--lh-surface);
+  border: 1px solid var(--lh-border);
+  border-radius: var(--lh-radius);
+  box-shadow: var(--lh-shadow-soft);
+  transition: border-color var(--lh-fast) var(--lh-ease);
+}
+.lh-faq__item + .lh-faq__item { margin-top: 0.75rem; }
+.lh-faq__item.is-open { border-color: var(--lh-border-strong); }
+
+.lh-faq__question {
+  margin: 0;
+  font-size: inherit; /* the h3 is for structure; the button controls the look */
+}
+.lh-faq__button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  min-height: 3.25rem;
+  background: none;
+  border: 0;
+  border-radius: var(--lh-radius);
+  text-align: left;
+  font-family: var(--lh-font-body);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--lh-text);
+}
+.lh-faq__button:hover { color: var(--lh-berry-ink); }
+
+.lh-faq__chevron {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--lh-blush-soft);
+  color: var(--lh-plum);
+  transition: transform var(--lh-medium) var(--lh-ease);
+}
+.lh-faq__item.is-open .lh-faq__chevron { transform: rotate(180deg); }
+
+.lh-faq__answer {
+  padding: 0 1.25rem 1.15rem;
+  color: var(--lh-text-soft);
+  animation: lh-menu-in var(--lh-medium) var(--lh-ease); /* reuses the fade from layout.css */
+}
+
+/* ============================================================
+   FINAL CALL TO ACTION
+   ============================================================ */
+.lh-cta {
+  padding: clamp(2.75rem, 2rem + 4vw, 4.5rem) 1.25rem;
+  background: var(--lh-grad-sunrise);
+}
+.lh-cta__title {
+  font-size: var(--lh-size-section);
+  color: var(--lh-text);
+  margin: 0.75rem 0 0.5rem;
+}
+.lh-cta__text {
+  max-width: 32rem;
+  margin: 0 auto;
+  color: var(--lh-text-soft);
+}
+.lh-cta__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+@media (min-width: 576px) {
+  .lh-cta__actions {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
