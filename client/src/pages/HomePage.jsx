@@ -111,7 +111,7 @@ export default function HomePage() {
           </section>
         </div>
 
-        {/* ---- Interest chips ---- */}
+                {/* ---- Interest chips ---- */}
         <div className="col-lg-6">
           <section className="lh-card p-4 h-100">
             <h2 className="h5 font-ui mb-1">Interest chips</h2>
@@ -128,6 +128,17 @@ export default function HomePage() {
                 />
               ))}
             </div>
+
+            {/* NEW: practice task — empties the selection */}
+            <button
+              type="button"
+              className="btn btn-ghost btn-sm mb-3"
+              onClick={() => setSelected(new Set())}
+              disabled={selected.size === 0}
+            >
+              <i className="bi bi-x-circle" aria-hidden="true"></i> Clear all
+            </button>
+
             <div className="d-flex flex-wrap gap-2">
               <InterestChip label="Tea 🍵" shared />
               <InterestChip label="Journaling" />
