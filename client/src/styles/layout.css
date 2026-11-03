@@ -1,0 +1,171 @@
+/* layout.css — the page frame: shell, navbar, footer, section scrolling. */
+
+/* ---- Smooth scrolling to #sections ------------------------------------------
+   (base.css already turns this off for people who prefer reduced motion) */
+html {
+  scroll-behavior: smooth;
+}
+
+/* When jumping to a section, stop below the sticky navbar instead of under it */
+[id] {
+  scroll-margin-top: 5.5rem;
+}
+
+/* ---- Page shell: keeps the footer at the bottom on short pages -------------- */
+.lh-shell {
+  min-height: 100vh;
+  min-height: 100dvh; /* "dynamic" height: accounts for mobile browser toolbars */
+  display: flex;
+  flex-direction: column;
+}
+.lh-shell__main {
+  flex: 1; /* takes all leftover space, pushing the footer down */
+}
+.lh-shell__main:focus {
+  outline: none; /* focused by the skip link; no ring needed on the whole page */
+}
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+.lh-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  background: rgba(255, 249, 242, 0.82); /* cream, slightly see-through */
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--lh-border);
+}
+
+.lh-navbar__inner {
+  display: flex;
+  flex-wrap: wrap; /* lets the mobile menu drop onto its own line */
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  min-height: 4.25rem;
+}
+
+/* Round ☰ button (phones and tablets only) */
+.lh-navbar__toggle {
+  width: 2.75rem;
+  height: 2.75rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1.5px solid var(--lh-border-strong);
+  background: var(--lh-white);
+  color: var(--lh-berry-ink);
+  font-size: 1.35rem;
+  transition: background-color var(--lh-fast) var(--lh-ease);
+}
+.lh-navbar__toggle:hover { background: var(--lh-blush-soft); }
+
+/* ---- Menu: hidden on small screens until opened ---- */
+.lh-navbar__menu {
+  display: none;
+  width: 100%;
+  padding: 0.25rem 0 1.25rem;
+}
+.lh-navbar__menu.is-open {
+  display: block;
+  animation: lh-menu-in var(--lh-medium) var(--lh-ease);
+}
+@keyframes lh-menu-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.lh-navbar__links {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+}
+.lh-navbar__link {
+  display: block;
+  padding: 0.7rem 0.5rem;
+  border-radius: var(--lh-radius-sm);
+  font-family: var(--lh-font-ui);
+  font-weight: 600;
+  color: var(--lh-text);
+  text-decoration: none;
+}
+.lh-navbar__link:hover {
+  color: var(--lh-berry-ink);
+  background: var(--lh-lilac-soft);
+}
+
+.lh-navbar__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* ---- Laptop (≥ 992px): everything in one row, always visible ---- */
+@media (min-width: 992px) {
+  .lh-navbar__menu,
+  .lh-navbar__menu.is-open {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    width: auto;
+    padding: 0;
+    animation: none;
+  }
+  .lh-navbar__links {
+    display: flex;
+    gap: 0.25rem;
+    margin: 0;
+  }
+  .lh-navbar__link { padding: 0.45rem 0.85rem; }
+  .lh-navbar__actions {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.lh-footer {
+  margin-top: 4rem;
+  padding: 3rem 0 1.5rem;
+  background: rgba(255, 255, 255, 0.55);
+  border-top: 1px solid var(--lh-border);
+}
+.lh-footer__title {
+  font-family: var(--lh-font-ui);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--lh-berry-ink);
+  margin-bottom: 0.75rem;
+}
+.lh-footer__links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.lh-footer__links li + li { margin-top: 0.4rem; }
+.lh-footer__links a {
+  color: var(--lh-text);
+  text-decoration: none;
+}
+.lh-footer__links a:hover {
+  color: var(--lh-berry-ink);
+  text-decoration: underline;
+}
+.lh-footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem 1.5rem;
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px dashed var(--lh-border-strong); /* a little "notebook" touch */
+  font-size: 0.9rem;
+  color: var(--lh-text-soft);
+}
+.lh-footer__bottom p { margin: 0; }

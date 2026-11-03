@@ -4,12 +4,12 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router';
 
 // CSS ORDER MATTERS: Bootstrap first, then ours, so ours win ties.
-// tokens (variables) → base (page) → components (pieces)
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.min.css';
 import './styles/tokens.css';
 import './styles/base.css';
-import './styles/components.css'; // NEW in Milestone 3
+import './styles/components.css';
+import './styles/layout.css'; // NEW in Milestone 4
 
 import App from './App.jsx';
 

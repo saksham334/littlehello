@@ -55,7 +55,7 @@ export default function StyleGuidePage() {
   }
 
   return (
-    <main id="main" className="container py-5">
+        <main className="container py-5">
       <header className="mb-5 d-flex flex-wrap align-items-center justify-content-between gap-3">
         <div>
           <p className="lh-eyebrow mb-1">Design system</p>
