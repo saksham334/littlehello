@@ -12,7 +12,7 @@ export default function ApiStatus() {
     const controller = new AbortController();
     getHealth({ signal: controller.signal })
       .then((data) => {
-        setMessage(data.message);
+                setMessage(`${data.message} · Database: ${data.database}`);
         setStatus('ok');
       })
       .catch((err) => {
