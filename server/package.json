@@ -7,12 +7,14 @@
   "main": "src/server.js",
   "scripts": {
     "dev": "node --watch --env-file=.env src/server.js",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "try:user": "node --env-file=.env scripts/try-user-model.js"
   },
   "engines": {
     "node": ">=24"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "express": "^5.3.0",
     "mongoose": "^9.11.4"
   }
