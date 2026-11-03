@@ -3,6 +3,11 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router';
 
+// Self-hosted fonts (Fontsource): bundled with the site, no request to Google.
+import '@fontsource-variable/caveat';
+import '@fontsource-variable/nunito';
+import '@fontsource-variable/quicksand';
+
 // CSS ORDER MATTERS: Bootstrap first, then ours, so ours win ties.
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.min.css';

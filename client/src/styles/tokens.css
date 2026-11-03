@@ -38,9 +38,9 @@
   --lh-grad-sunrise: linear-gradient(135deg, var(--lh-peach-soft) 0%, var(--lh-blush-soft) 55%, var(--lh-lilac-soft) 100%);
 
   /* ---- Fonts -------------------------------------------------------------- */
-  --lh-font-hand: 'Caveat', 'Segoe Print', 'Bradley Hand', cursive;
-  --lh-font-body: 'Nunito', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --lh-font-ui: 'Quicksand', var(--lh-font-body);
+  --lh-font-hand: 'Caveat Variable', 'Caveat', 'Segoe Print', 'Bradley Hand', cursive;
+  --lh-font-body: 'Nunito Variable', 'Nunito', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --lh-font-ui: 'Quicksand Variable', 'Quicksand', var(--lh-font-body);
 
   /* ---- Fluid type scale: clamp(min, preferred, max) ---------------------- */
   --lh-size-hero: clamp(3.25rem, 2rem + 6vw, 6rem);

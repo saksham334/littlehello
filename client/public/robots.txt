@@ -1,0 +1,3 @@
+# robots.txt — tells search engines which pages they may visit.
+User-agent: *
+Allow: /

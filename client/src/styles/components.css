@@ -142,7 +142,7 @@ a.lh-logo:hover .lh-logo__mark { transform: rotate(36deg); }
   border: 1px solid var(--lh-border);
   border-radius: var(--lh-radius-lg);
   box-shadow: var(--lh-shadow-soft);
-  backdrop-filter: blur(6px); /* lets the dreamy background softly show through */
+  
 }
 
 .lh-card--interactive {
@@ -273,11 +273,13 @@ a.lh-logo:hover .lh-logo__mark { transform: rotate(36deg); }
 .lh-scatter > * { position: absolute; }
 
 .lh-float {
+  rotate: var(--rot, 0deg);   /* each doodle's own tilt (doesn't move) */
   animation: lh-float 7s var(--lh-ease) infinite;
+  will-change: translate;     /* hint: let the graphics chip handle the movement */
 }
 @keyframes lh-float {
-  0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
-  50%      { transform: translateY(-8px) rotate(calc(var(--rot, 0deg) + 4deg)); }
+  0%, 100% { translate: 0 0; }
+  50%      { translate: 0 -8px; }
 }
 
 /* ============================================================
