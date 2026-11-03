@@ -1,0 +1,19 @@
+/* styleguide.css — styles used only on the /styleguide page */
+
+/* Hero preview: roomy padding that grows with screen size */
+.sg-hero {
+  padding: clamp(3rem, 2rem + 5vw, 5.5rem) 1rem;
+}
+
+/* Color swatch tile */
+.sg-swatch {
+  height: 100%;
+  overflow: hidden;
+  background: var(--lh-white);
+  border: 1px solid var(--lh-border);
+  border-radius: var(--lh-radius);
+}
+.sg-swatch__color {
+  height: 5rem;
+  border-bottom: 1px solid var(--lh-border); /* so Cream is visible against white */
+}

@@ -183,8 +183,13 @@ export default function HomePage() {
         </div>
       </div>
 
-      <p className="text-center mt-4">
-        <Link to="/this-page-does-not-exist">Test the 404 page</Link>
+            <p className="text-center mt-4 d-flex flex-wrap justify-content-center gap-3">
+        <Link to="/styleguide" className="btn btn-outline-berry">
+          <i className="bi bi-palette" aria-hidden="true"></i> View the style guide
+        </Link>
+        <Link to="/this-page-does-not-exist" className="btn btn-ghost">
+          Test the 404 page
+        </Link>
       </p>
     </main>
   );
