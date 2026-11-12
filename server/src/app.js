@@ -6,6 +6,8 @@ import { getDatabaseStatus } from './config/db.js';
 import { sessionMiddleware } from './config/session.js';
 import { AppError } from './utils/AppError.js';
 import authRoutes from './routes/authRoutes.js';
+import helmet from 'helmet';
+import { apiLimiter } from './middleware/rateLimiters.js';
 
 const app = express();
 
@@ -16,6 +18,14 @@ app.disable('x-powered-by');
 if (env.isProduction) {
   app.set('trust proxy', 1);
 }
+
+// Security headers on every response (content security policy, clickjacking
+// protection, no MIME sniffing, HSTS, and more). One line, many protections.
+app.use(helmet());
+
+// Rate-limit every API request BEFORE parsing bodies or touching the database,
+// so floods are rejected as cheaply as possible.
+app.use('/api', apiLimiter);
 
 app.use(express.json({ limit: '10kb' }));
 app.use(sessionMiddleware); // must come BEFORE any route that uses req.session

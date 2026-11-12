@@ -94,3 +94,36 @@ Content-Type: application/json
   "agreeToGuidelines": true,
   "role": "admin"
 }
+
+### ----------------------------------------------------------------
+### Edge cases (Part 6D)
+### ----------------------------------------------------------------
+
+### 13. Security headers → 200. Look at the response HEADERS:
+###     Content-Security-Policy, X-Content-Type-Options, RateLimit, etc.
+GET {{baseUrl}}/health
+
+### 14. Fake cookie → 401 (the signature doesn't match our secret)
+GET {{baseUrl}}/auth/me
+Cookie: lh.sid=s%3Afake-session-id.fake-signature
+
+### 15. Broken JSON → 400 "That request wasn't valid JSON."
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{ "email": "mira.demo@example.com", "password": }
+
+### 16. Missing body entirely → 400 with details for email and password
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{}
+
+### 17. Unknown route → 404 friendly message
+GET {{baseUrl}}/auth/does-not-exist
+
+### 18. Logout when already logged out → 204 (logging out twice is harmless)
+POST {{baseUrl}}/auth/logout
+
+### 19. Logout via GET → 404 (actions that change things are never GET)
+GET {{baseUrl}}/auth/logout
