@@ -25,7 +25,9 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
   // If a protected page sent you here (Part 7C), go back there after logging in.
-  const redirectTo = location.state?.from?.pathname ?? '/';
+  const redirectTo = location.state?.from?.pathname ?? '/discover';
+  // Were they sent here by ProtectedRoute? Then explain why, gently.
+  const cameFromProtectedPage = Boolean(location.state?.from);
 
   const [values, setValues] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({});
@@ -78,7 +80,13 @@ export default function LoginPage() {
         </>
       }
     >
-      <form onSubmit={handleSubmit} noValidate>
+       <form onSubmit={handleSubmit} noValidate>
+        {cameFromProtectedPage && !formError && (
+          <div className="lh-alert lh-alert--info mb-3" role="status">
+            <i className="bi bi-info-circle-fill" aria-hidden="true"></i>
+            <span>Please log in to continue. We’ll take you right back.</span>
+          </div>
+        )}
         {formError && (
           <div className="lh-alert lh-alert--error mb-3" role="alert">
             <i className="bi bi-exclamation-circle-fill" aria-hidden="true"></i>

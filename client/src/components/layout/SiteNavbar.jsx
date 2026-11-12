@@ -1,8 +1,9 @@
 // SiteNavbar.jsx — the sticky top bar on public pages.
-// Logged out: "Log in" + "Join LittleHello".  Logged in: a friendly hello + "Log out".
+// Logged out: "Log in" + "Join LittleHello".  Logged in: a link into the app + "Log out".
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { Link } from 'react-router';
 import Logo from '../brand/Logo.jsx';
+import LogoutButton from '../auth/LogoutButton.jsx';
 import { useAuth } from '../../hooks/useAuth.js';
 
 const SECTION_LINKS = [
@@ -13,23 +14,10 @@ const SECTION_LINKS = [
 
 export default function SiteNavbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [loggingOut, setLoggingOut] = useState(false);
-  const { user, isLoggedIn, status, logout } = useAuth();
-  const navigate = useNavigate();
+  const { user, isLoggedIn, status } = useAuth();
 
   function closeMenu() {
     setMenuOpen(false);
-  }
-
-  async function handleLogout() {
-    setLoggingOut(true);
-    try {
-      await logout();
-      closeMenu();
-      navigate('/'); // back to the landing page
-    } finally {
-      setLoggingOut(false);
-    }
   }
 
   useEffect(() => {
@@ -69,22 +57,13 @@ export default function SiteNavbar() {
           </ul>
 
           <div className="lh-navbar__actions">
-            {/* While checking, show nothing, so buttons don't flicker from "Log in" to "Log out" */}
             {status === 'checking' ? null : isLoggedIn ? (
               <>
-                <span className="font-ui text-soft px-2">
-                  <i className="bi bi-flower1 me-1" aria-hidden="true"></i>
-                  Hi, {user.username}
-                </span>
-                <button type="button" className="btn btn-outline-berry" onClick={handleLogout} disabled={loggingOut}>
-                  {loggingOut ? (
-                    <>
-                      <span className="spinner-border spinner-border-sm" aria-hidden="true"></span> Logging out…
-                    </>
-                  ) : (
-                    'Log out'
-                  )}
-                </button>
+                <Link to="/discover" className="btn btn-soft" onClick={closeMenu}>
+                  <i className="bi bi-flower1" aria-hidden="true"></i> Open LittleHello
+                  <span className="visually-hidden"> (logged in as {user.username})</span>
+                </Link>
+                <LogoutButton onLoggedOut={closeMenu} />
               </>
             ) : (
               <>

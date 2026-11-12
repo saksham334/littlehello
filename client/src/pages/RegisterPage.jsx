@@ -80,8 +80,8 @@ export default function RegisterPage() {
         email: values.email.trim(),
         username: values.username.trim().toLowerCase(),
       });
-      // Part 7C sends new members to their first app page instead (and Milestone 9: onboarding).
-      navigate('/', { replace: true });
+      // New members go into the app. (Milestone 9 will send them to onboarding first.)
+      navigate('/discover', { replace: true });
     } catch (err) {
       // The server's verdict: a general message, plus per-field messages if it sent any.
       setFormError(err.message);

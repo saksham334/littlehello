@@ -441,3 +441,19 @@ a.lh-logo:hover .lh-logo__mark { transform: rotate(36deg); }
 .lh-alert--error { background: var(--lh-error-bg); color: var(--lh-error); }
 .lh-alert--success { background: var(--lh-success-bg); color: var(--lh-success); }
 .lh-alert .bi { margin-top: 0.1rem; }
+
+/* ---- Info alert (gentle notices, e.g. "Please log in to continue") ---- */
+.lh-alert--info {
+  background: var(--lh-lilac-soft);
+  color: var(--lh-plum);
+}
+
+/* ---- Full-area loading state (route guards) ---- */
+.lh-page-loader {
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
