@@ -1,13 +1,15 @@
-// client.js - the ONE place where the frontend talks to the backend.
-// Every other API files uses these helpers, so error handling and cookies are handled consistently everywhere.
+// client.js — the ONE place where the frontend talks to the backend.
 
-// A custom error type so pages can read err. status (e.g. 401 = not logged in) and err.message (e.g. "You must be logged in to do that").
+// Event name broadcast when the server says "you're not logged in" (401).
+// AuthProvider listens for it and clears the user, so the app updates everywhere.
+export const UNAUTHORIZED_EVENT = 'littlehello:unauthorized';
+
 export class ApiError extends Error {
   constructor(message, status, details) {
     super(message);
     this.name = 'ApiError';
     this.status = status;   // HTTP status code, or 0 if the server was unreachable
-    this.details = details; // optional extra info (e.g. field validation errors later)
+    this.details = details; // per-field messages, e.g. { email: '…' } (from zod, Milestone 6B)
   }
 }
 
@@ -17,26 +19,26 @@ export async function apiRequest(path, { method = 'GET', body, signal } = {}) {
   try {
     response = await fetch(`/api${path}`, {
       method,
-      // Send the session cookie with every request (needed from Milestone 6).
-      // We never put tokens in localStorage.
-      credentials: 'include',
+      credentials: 'include', // send the session cookie (we never use localStorage for auth)
       headers: body ? { 'Content-Type': 'application/json' } : undefined,
       body: body ? JSON.stringify(body) : undefined,
-      signal, // lets a page cancel a request it no longer needs
+      signal,
     });
   } catch (err) {
-    // A cancelled request isn't a real error, so pass it through untouched.
     if (err.name === 'AbortError') throw err;
-    // fetch only throws for network problems (server down, Wi-Fi off).
     throw new ApiError('We couldn’t reach LittleHello. Please check your connection and try again.', 0);
   }
 
-  // Only parse JSON if the server actually sent JSON.
   const isJson = response.headers.get('content-type')?.includes('application/json');
   const data = isJson ? await response.json() : null;
 
-  // fetch does NOT throw on 400/500 responses, so we check response.ok ourselves.
   if (!response.ok) {
+    // A 401 from anything except the auth routes means the session ended
+    // (expired, logged out in another tab, or account removed).
+    if (response.status === 401 && !path.startsWith('/auth/')) {
+      window.dispatchEvent(new Event(UNAUTHORIZED_EVENT));
+    }
+
     throw new ApiError(
       data?.error || 'Something went wrong. Please try again.',
       response.status,
@@ -47,7 +49,6 @@ export async function apiRequest(path, { method = 'GET', body, signal } = {}) {
   return data;
 }
 
-// Short helpers: api.get('/health'), api.post('/auth/login', { ... }), etc.
 export const api = {
   get: (path, options) => apiRequest(path, { ...options, method: 'GET' }),
   post: (path, body, options) => apiRequest(path, { ...options, method: 'POST', body }),

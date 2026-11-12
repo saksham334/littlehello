@@ -1,35 +1,43 @@
-// SiteNavbar.jsx - the sticky top bar on public pages.
-// Phone/tablets: logo + round menu button that opens a panel.
-// Laptop (≥ 992px): links and buttons all visible in one row (handled in CSS).
+// SiteNavbar.jsx — the sticky top bar on public pages.
+// Logged out: "Log in" + "Join LittleHello".  Logged in: a friendly hello + "Log out".
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import Logo from '../brand/Logo.jsx';
+import { useAuth } from '../../hooks/useAuth.js';
 
-// "/#faq" = go to the home page, then scroll to the element with id="faq"
-const SECTION_LINKS =[
-    { to: '/#how-it-works', label: 'How it works' },
-    { to: '/#safety', label: 'Safety' },
-    { to: '/#faq' , label: 'FAQ' },
+const SECTION_LINKS = [
+  { to: '/#how-it-works', label: 'How it works' },
+  { to: '/#safety', label: 'Safety' },
+  { to: '/#faq', label: 'FAQ' },
 ];
 
 export default function SiteNavbar() {
-    const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
+  const { user, isLoggedIn, status, logout } = useAuth();
+  const navigate = useNavigate();
 
-    function closeMenu(){
-        setMwnuOpen(false);
+  function closeMenu() {
+    setMenuOpen(false);
+  }
+
+  async function handleLogout() {
+    setLoggingOut(true);
+    try {
+      await logout();
+      closeMenu();
+      navigate('/'); // back to the landing page
+    } finally {
+      setLoggingOut(false);
     }
+  }
 
-    //While the menu is open, let the Escape key close it (keyboard user expect this).
-    // While the menu is open, let the Escape key close it (keyboard users expect this).
   useEffect(() => {
-    if (!menuOpen) return; // no listener needed while closed
-
+    if (!menuOpen) return;
     function handleKeyDown(event) {
       if (event.key === 'Escape') setMenuOpen(false);
     }
-
     document.addEventListener('keydown', handleKeyDown);
-    // Cleanup: remove the listener when the menu closes or the navbar unmounts.
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [menuOpen]);
 
@@ -38,7 +46,6 @@ export default function SiteNavbar() {
       <nav className="container lh-navbar__inner" aria-label="Main">
         <Logo to="/" size="sm" />
 
-        {/* d-lg-none: Bootstrap hides this button on screens ≥ 992px */}
         <button
           type="button"
           className="lh-navbar__toggle d-lg-none"
@@ -62,12 +69,33 @@ export default function SiteNavbar() {
           </ul>
 
           <div className="lh-navbar__actions">
-            <Link to="/login" className="btn btn-ghost" onClick={closeMenu}>
-              Log in
-            </Link>
-            <Link to="/register" className="btn btn-berry" onClick={closeMenu}>
-              <i className="bi bi-flower1" aria-hidden="true"></i> Join LittleHello
-            </Link>
+            {/* While checking, show nothing, so buttons don't flicker from "Log in" to "Log out" */}
+            {status === 'checking' ? null : isLoggedIn ? (
+              <>
+                <span className="font-ui text-soft px-2">
+                  <i className="bi bi-flower1 me-1" aria-hidden="true"></i>
+                  Hi, {user.username}
+                </span>
+                <button type="button" className="btn btn-outline-berry" onClick={handleLogout} disabled={loggingOut}>
+                  {loggingOut ? (
+                    <>
+                      <span className="spinner-border spinner-border-sm" aria-hidden="true"></span> Logging out…
+                    </>
+                  ) : (
+                    'Log out'
+                  )}
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="btn btn-ghost" onClick={closeMenu}>
+                  Log in
+                </Link>
+                <Link to="/register" className="btn btn-berry" onClick={closeMenu}>
+                  <i className="bi bi-flower1" aria-hidden="true"></i> Join LittleHello
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </nav>

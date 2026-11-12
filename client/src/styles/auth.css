@@ -1,0 +1,59 @@
+/* auth.css — the Register and Login pages. */
+
+.lh-auth {
+  position: relative; /* for DoodleScatter */
+  overflow: hidden;   /* doodles never cause sideways scroll */
+  padding-block: clamp(2rem, 1rem + 4vw, 4.5rem);
+}
+
+.lh-auth__card {
+  max-width: 28rem;
+  padding: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+}
+
+.lh-auth__title {
+  font-family: var(--lh-font-hand);
+  font-weight: 700;
+  font-size: clamp(2.4rem, 2rem + 2vw, 3.1rem);
+  line-height: 1;
+  color: var(--lh-berry);
+  margin: 0.85rem 0 0.35rem;
+}
+
+.lh-auth__footer {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px dashed var(--lh-border-strong);
+  text-align: center;
+  color: var(--lh-text-soft);
+}
+
+/* ---- Password field with a show/hide button inside it ---- */
+.lh-password {
+  position: relative;
+}
+.lh-password .form-control {
+  padding-right: 3.25rem; /* room for the eye button */
+}
+/* Bootstrap's red "!" icon would sit under our eye button, so hide it here */
+.lh-password .form-control.is-invalid {
+  background-image: none;
+}
+.lh-password__toggle {
+  position: absolute;
+  top: 50%;
+  right: 0.4rem;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--lh-berry-ink);
+  font-size: 1.15rem;
+}
+.lh-password__toggle:hover {
+  background: var(--lh-lilac-soft);
+}
