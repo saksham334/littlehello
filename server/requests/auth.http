@@ -1,0 +1,96 @@
+# auth.http — try every auth route from VS Code.
+# Click "Send Request" above each ### block. Run them in order (1 → 12).
+# Uses a clearly labeled DEMO account on example.com (a domain reserved for testing).
+
+@baseUrl = http://localhost:4000/api
+
+### 1. Health check (should say database: connected)
+GET {{baseUrl}}/health
+
+### 2. Who am I? → 401 (not logged in yet)
+GET {{baseUrl}}/auth/me
+
+### 3. Register a DEMO user → 201 + Set-Cookie header
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "mira.demo@example.com",
+  "username": "mira_demo",
+  "password": "tea under the willow",
+  "birthDate": "1998-04-12",
+  "agreeToGuidelines": true
+}
+
+### 4. Who am I? → 200 (the cookie from step 3 is sent automatically)
+GET {{baseUrl}}/auth/me
+
+### 5. Log out → 204
+POST {{baseUrl}}/auth/logout
+
+### 6. Who am I? → 401 again
+GET {{baseUrl}}/auth/me
+
+### 7. Log in → 200 (note the messy email: it gets cleaned)
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "  Mira.Demo@Example.com ",
+  "password": "tea under the willow"
+}
+
+### 8. Wrong password → 401 "That email and password don't match"
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "mira.demo@example.com",
+  "password": "coffee on the moon"
+}
+
+### 9. Email that doesn't exist → 401 with the SAME message as step 8
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "nobody.demo@example.com",
+  "password": "coffee on the moon"
+}
+
+### 10. Same email again → 409
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "mira.demo@example.com",
+  "username": "another_mira",
+  "password": "a different long phrase",
+  "birthDate": "1998-04-12",
+  "agreeToGuidelines": true
+}
+
+### 11. Under 18 → 400 with details.birthDate
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "teen.demo@example.com",
+  "username": "teen_demo",
+  "password": "a long enough phrase",
+  "birthDate": "2015-06-01",
+  "agreeToGuidelines": true
+}
+
+### 12. Sneaky "role": "admin" → 201, but the response shows role: "member" 🔒
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "sneaky.demo@example.com",
+  "username": "sneaky_demo",
+  "password": "trying to be an admin",
+  "birthDate": "1995-01-01",
+  "agreeToGuidelines": true,
+  "role": "admin"
+}

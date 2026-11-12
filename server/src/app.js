@@ -1,26 +1,29 @@
 // app.js — builds and configures the Express application.
 // It does NOT start listening on a port; server.js does that.
-
 import express from 'express';
+import { env } from './config/env.js';
 import { getDatabaseStatus } from './config/db.js';
+import { sessionMiddleware } from './config/session.js';
+import { AppError } from './utils/AppError.js';
+import authRoutes from './routes/authRoutes.js';
 
 const app = express();
 
-// Hide the "X-Powered-By: Express" header so we don't advertise our tech stack.
 app.disable('x-powered-by');
 
-// Parse JSON request bodies into req.body (max 10kb, a cheap defense against abuse).
+// In production we'll run behind Render's HTTPS proxy. This tells Express to trust it,
+// so secure cookies work. (Not needed on localhost.)
+if (env.isProduction) {
+  app.set('trust proxy', 1);
+}
+
 app.use(express.json({ limit: '10kb' }));
+app.use(sessionMiddleware); // must come BEFORE any route that uses req.session
 
 // ---- Routes ---------------------------------------------------------------
-
-// Health check: is the API alive, and is the database connected?
-// Returns 503 ("Service Unavailable") if the database is down, so hosting
-// providers know something is wrong.
 app.get('/api/health', (req, res) => {
   const database = getDatabaseStatus();
   const healthy = database === 'connected';
-
   res.status(healthy ? 200 : 503).json({
     status: healthy ? 'ok' : 'degraded',
     message: healthy
@@ -32,7 +35,6 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Practice route from Milestone 1
 const supportPhrases = [
   'Friendship, at your own pace.',
   "You don't have to be loud to belong.",
@@ -40,11 +42,11 @@ const supportPhrases = [
   'No pressure. Just people.',
   'Take your time. Find your people.',
 ];
-
 app.get('/api/hello', (req, res) => {
-  const phrase = supportPhrases[Math.floor(Math.random() * supportPhrases.length)];
-  res.json({ phrase });
+  res.json({ phrase: supportPhrases[Math.floor(Math.random() * supportPhrases.length)] });
 });
+
+app.use('/api/auth', authRoutes); // NEW: /api/auth/register, /login, /logout, /me
 
 // ---- 404 for unknown API routes -------------------------------------------
 app.use('/api', (req, res) => {
@@ -54,12 +56,28 @@ app.use('/api', (req, res) => {
 // ---- Central error handler ------------------------------------------------
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
+  // Our own friendly errors
+  if (err instanceof AppError) {
+    return res.status(err.status).json({
+      error: err.message,
+      ...(err.details && { details: err.details }),
+    });
+  }
+
+  // A Mongoose model rule failed (second safety layer behind zod)
+  if (err.name === 'ValidationError') {
+    const details = Object.fromEntries(Object.entries(err.errors).map(([field, e]) => [field, e.message]));
+    return res.status(400).json({ error: 'A few details need a little fix.', details });
+  }
+
   if (err.type === 'entity.parse.failed') {
     return res.status(400).json({ error: 'That request wasn’t valid JSON.' });
   }
   if (err.type === 'entity.too.large') {
     return res.status(413).json({ error: 'That request was too large.' });
   }
+
+  // Anything else is unexpected: log details for us, never leak them to users.
   console.error('Unexpected error:', err);
   res.status(500).json({ error: 'Something went wrong on our side. Please try again soon.' });
 });
