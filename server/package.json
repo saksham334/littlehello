@@ -9,6 +9,7 @@
     "dev": "node --watch --env-file=.env src/server.js",
     "start": "node src/server.js",
     "try:user": "node --env-file=.env scripts/try-user-model.js",
+    "try:profile": "node --env-file=.env scripts/try-profile-model.js",
     "try:validation": "node scripts/try-validation.js",
     "try:ratelimit": "node scripts/try-rate-limit.js",
     "demo:clean": "node --env-file=.env scripts/cleanup-demo-users.js"
