@@ -1,0 +1,124 @@
+# profiles.http — try every /api/profiles route. Run in order.
+# BEFORE YOU START:
+#   1. npm run seed:profiles   → copy the 4 printed ids into the variables below
+#   2. Make sure mira.demo@example.com exists (request 3 creates it if not)
+
+@baseUrl = http://localhost:4000/api
+@junId = PASTE_JUN_ID_HERE
+@samId = PASTE_SAM_ID_HERE
+@ashId = PASTE_ASH_ID_HERE
+@newId = PASTE_NEW_ID_HERE
+
+### 1. Options → 200 (works without logging in)
+GET {{baseUrl}}/profiles/options
+
+### 2. Log out first, then: my profile → 401
+POST {{baseUrl}}/auth/logout
+
+###
+GET {{baseUrl}}/profiles/me
+
+### 3. Create Mira (a 409 here just means she already exists, which is fine)
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "mira.demo@example.com",
+  "username": "mira_demo",
+  "password": "tea under the willow",
+  "birthDate": "1998-04-12",
+  "agreeToGuidelines": true
+}
+
+### 4. Log in as Mira
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{ "email": "mira.demo@example.com", "password": "tea under the willow" }
+
+### 5. My profile → 200 (created automatically, mostly empty, with privacy defaults)
+GET {{baseUrl}}/profiles/me
+
+### 6. Update several things → 200
+PATCH {{baseUrl}}/profiles/me
+Content-Type: application/json
+
+{
+  "displayName": "Mira (demo)",
+  "pronouns": "she/her",
+  "avatar": "moon",
+  "bio": "New to the city. I like quiet cafés, long walks and swapping book recommendations.",
+  "interests": ["reading", "tea", "journaling"],
+  "languages": ["en", "fr"],
+  "conversationStyle": "slow-thoughtful",
+  "friendshipGoals": ["chat-buddy", "hobby-buddy"]
+}
+
+### 7. Update ONE thing → 200 (everything else stays the same)
+PATCH {{baseUrl}}/profiles/me
+Content-Type: application/json
+
+{ "bio": "Quiet cafés and book swaps, please ☕📚" }
+
+### 8. Made-up interest → 400, details.interests
+PATCH {{baseUrl}}/profiles/me
+Content-Type: application/json
+
+{ "interests": ["reading", "skydiving-at-midnight"] }
+
+### 9. Too many interests → 400
+PATCH {{baseUrl}}/profiles/me
+Content-Type: application/json
+
+{ "interests": ["reading","tea","coffee","baking","cooking","houseplants","puzzles","board-games","drawing","painting","writing"] }
+
+### 10. Sneaky fields → 200, but isComplete stays false and "user" is unchanged 🔒
+PATCH {{baseUrl}}/profiles/me
+Content-Type: application/json
+
+{ "bio": "Still me.", "isComplete": true, "user": "000000000000000000000000" }
+
+### 11. Empty update → 400 "There's nothing to update yet."
+PATCH {{baseUrl}}/profiles/me
+Content-Type: application/json
+
+{}
+
+### 12. Change ONE privacy setting → 200 (the other five stay the same)
+PATCH {{baseUrl}}/profiles/me
+Content-Type: application/json
+
+{ "privacy": { "showPronouns": false } }
+
+### 13. Preview my public profile → pronouns now null, no privacy settings, no dates
+GET {{baseUrl}}/profiles/me/public
+
+### 14. Clear my conversation style with null → 200
+PATCH {{baseUrl}}/profiles/me
+Content-Type: application/json
+
+{ "conversationStyle": null, "privacy": { "showPronouns": true } }
+
+### 15. Jun's profile → 200: communities = [] (hidden by Jun's privacy), no user id, no dates
+GET {{baseUrl}}/profiles/{{junId}}
+
+### 16. Sam's profile → 200: pronouns = null, communities shown
+GET {{baseUrl}}/profiles/{{samId}}
+
+### 17. Ash (hidden from Discover) → 404
+GET {{baseUrl}}/profiles/{{ashId}}
+
+### 18. New (onboarding not finished) → 404
+GET {{baseUrl}}/profiles/{{newId}}
+
+### 19. Badly formed id → 400 "That profile link doesn't look right."
+GET {{baseUrl}}/profiles/hello-there
+
+### 20. Well-formed id that doesn't exist → 404 (the same message as 17 and 18)
+GET {{baseUrl}}/profiles/000000000000000000000000
+
+### 21. Log out, then Jun's profile → 401 (profiles are for members only)
+POST {{baseUrl}}/auth/logout
+
+###
+GET {{baseUrl}}/profiles/{{junId}}

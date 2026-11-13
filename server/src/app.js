@@ -8,6 +8,7 @@ import { AppError } from './utils/AppError.js';
 import authRoutes from './routes/authRoutes.js';
 import helmet from 'helmet';
 import { apiLimiter } from './middleware/rateLimiters.js';
+import profileRoutes from './routes/profileRoutes.js';
 
 const app = express();
 
@@ -56,7 +57,8 @@ app.get('/api/hello', (req, res) => {
   res.json({ phrase: supportPhrases[Math.floor(Math.random() * supportPhrases.length)] });
 });
 
-app.use('/api/auth', authRoutes); // NEW: /api/auth/register, /login, /logout, /me
+app.use('/api/auth', authRoutes);
+app.use('/api/profiles', profileRoutes); // NEW
 
 // ---- 404 for unknown API routes -------------------------------------------
 app.use('/api', (req, res) => {

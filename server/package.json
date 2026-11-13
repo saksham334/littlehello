@@ -12,7 +12,8 @@
     "try:profile": "node --env-file=.env scripts/try-profile-model.js",
     "try:validation": "node scripts/try-validation.js",
     "try:ratelimit": "node scripts/try-rate-limit.js",
-    "demo:clean": "node --env-file=.env scripts/cleanup-demo-users.js"
+    "demo:clean": "node --env-file=.env scripts/cleanup-demo-users.js",
+    "seed:profiles": "node --env-file=.env scripts/seed-demo-profiles.js"
   },
   "engines": {
     "node": ">=24"
