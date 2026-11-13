@@ -1,0 +1,241 @@
+/* app.css — the logged-in app shell: sidebar / rail / top bar / bottom tabs. */
+
+/* ============================================================
+   SHELL LAYOUT
+   ============================================================ */
+.lh-app {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Tablets and up: two columns, navigation | page.
+   minmax(0, 1fr) stops wide content from stretching the page sideways. */
+@media (min-width: 768px) {
+  .lh-app {
+    display: grid;
+    grid-template-columns: 5.75rem minmax(0, 1fr);
+  }
+}
+@media (min-width: 1200px) {
+  .lh-app {
+    grid-template-columns: 16rem minmax(0, 1fr);
+  }
+}
+
+/* Phones: leave room at the bottom so content never hides behind the tab bar */
+.lh-app__main {
+  padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
+}
+.lh-app__main:focus {
+  outline: none;
+}
+@media (min-width: 768px) {
+  .lh-app__main {
+    padding-bottom: 2rem;
+  }
+}
+
+/* ============================================================
+   TOP BAR (phones)
+   ============================================================ */
+.lh-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1rem;
+  padding-top: calc(0.6rem + env(safe-area-inset-top));
+  background: rgba(255, 249, 242, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--lh-border);
+}
+.lh-topbar__icon {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--lh-border-strong);
+  background: var(--lh-white);
+  color: var(--lh-berry-ink);
+  font-size: 1.2rem;
+  text-decoration: none;
+}
+.lh-topbar__icon.active {
+  background: var(--lh-lilac-soft);
+  color: var(--lh-plum);
+}
+
+/* ============================================================
+   SIDEBAR / RAIL (tablets + laptops)
+   ============================================================ */
+.lh-sidebar {
+  position: sticky; /* stays put while the page scrolls */
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
+  flex-direction: column; /* display:flex comes from d-md-flex */
+  gap: 1.5rem;
+  padding: 1.25rem 0.6rem;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.6);
+  border-right: 1px solid var(--lh-border);
+}
+
+.lh-sidebar__brand {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 2.75rem;
+}
+.lh-sidebar__mark {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+}
+.lh-sidebar__mark svg {
+  transition: transform var(--lh-medium) var(--lh-ease);
+}
+.lh-sidebar__mark:hover svg {
+  transform: rotate(36deg);
+}
+
+.lh-sidebar__nav {
+  flex: 1; /* pushes the footer (settings, logout) to the bottom */
+}
+.lh-sidebar__nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+/* Rail style (tablets): icon on top, small label underneath */
+.lh-sidebar__link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  width: 100%;
+  min-height: 3.5rem;
+  padding: 0.6rem 0.25rem;
+  border: 0;
+  border-radius: var(--lh-radius);
+  background: none;
+  color: var(--lh-text-soft);
+  font-family: var(--lh-font-ui);
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    background-color var(--lh-fast) var(--lh-ease),
+    color var(--lh-fast) var(--lh-ease);
+}
+.lh-sidebar__link .bi {
+  font-size: 1.35rem;
+}
+.lh-sidebar__label {
+  font-size: 0.72rem;
+  line-height: 1.1;
+}
+.lh-sidebar__link:hover {
+  background: var(--lh-blush-soft);
+  color: var(--lh-plum);
+}
+.lh-sidebar__link.active {
+  background: var(--lh-lilac-soft);
+  color: var(--lh-plum);
+}
+
+.lh-sidebar__footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--lh-border-strong);
+}
+.lh-sidebar__user {
+  margin: 0.25rem 0.9rem;
+  font-size: 0.85rem;
+  color: var(--lh-text-soft);
+}
+
+/* Sidebar style (laptops): icon and label side by side */
+@media (min-width: 1200px) {
+  .lh-sidebar {
+    padding: 1.5rem 1rem;
+  }
+  .lh-sidebar__brand {
+    justify-content: flex-start;
+    padding-left: 0.5rem;
+  }
+  .lh-sidebar__link {
+    flex-direction: row;
+    gap: 0.8rem;
+    min-height: 2.9rem;
+    padding: 0.65rem 0.9rem;
+    text-align: left;
+  }
+  .lh-sidebar__label {
+    font-size: 1rem;
+  }
+}
+
+/* ============================================================
+   BOTTOM TAB BAR (phones)
+   ============================================================ */
+.lh-tabbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1030;
+  padding-bottom: env(safe-area-inset-bottom); /* sits above the iPhone home indicator */
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--lh-border);
+  box-shadow: 0 -6px 20px rgba(168, 93, 121, 0.08);
+}
+.lh-tabbar__list {
+  list-style: none;
+  margin: 0;
+  padding: 0.35rem 0.5rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 equal tabs */
+}
+.lh-tabbar__link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  min-height: 3.5rem; /* big, easy thumb targets */
+  border-radius: var(--lh-radius);
+  color: var(--lh-text-soft);
+  font-family: var(--lh-font-ui);
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-decoration: none;
+}
+/* The active tab gets a soft pill behind its icon */
+.lh-tabbar__icon {
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 1.9rem;
+  border-radius: var(--lh-radius-pill);
+  font-size: 1.2rem;
+  transition: background-color var(--lh-fast) var(--lh-ease);
+}
+.lh-tabbar__link.active {
+  color: var(--lh-plum);
+}
+.lh-tabbar__link.active .lh-tabbar__icon {
+  background: var(--lh-lilac-soft);
+}
